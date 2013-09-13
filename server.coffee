@@ -15,7 +15,7 @@ app.post '/command', (req, res) ->
   interpretor = new Interpreter
   result = interpretor.interpret(req.body.text)
   if !result
-    res.status(404).end()
+    res.status(405).end()
   else
     res.end()
   console.log('result', result)
