@@ -9,9 +9,9 @@ module.exports = class Interpreter
     right:
       text: ['right']
     front:
-      text: ['forward','forwards']
+      text: ['forward','forwards','four\\ words','ahead']
     back:
-      text: ['back','backwards']
+      text: ['back','backwards','back\\ words']
     up:
       text: ['up']
     down:
@@ -20,7 +20,7 @@ module.exports = class Interpreter
   commands:
     fly:
       params: ['direction', 'duration']
-      text: ['fly']
+      text: ['fly', 'flight', 'move', 'go']
     takeoff:
       text: ['takeoff', 'take\\ off', 'start']
     land:
