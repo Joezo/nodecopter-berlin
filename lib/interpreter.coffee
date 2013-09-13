@@ -1,5 +1,6 @@
 module.exports = class Interpreter
-  regexes: {}
+  commandRegExes    : {}
+  directionRegExes : {}
 
   directions:
     left:
@@ -29,17 +30,21 @@ module.exports = class Interpreter
   constructor: (@drone) ->
     throw new Error("I need a drone!") unless @drone
 
-    for method, command of @commands
-      reg = "(#{command.text.join('|')})"
-      reg += '\\s([\\w]+)'                 if command.params and 'direction' in command.params
-      reg += '\\sfor\\s([0-9]+)\\sseconds' if command.params and 'duration' in command.params
+    for command, obj of @commands
+      reg = "(#{obj.text.join('|')})"
+      reg += '\\s([\\w]+)'                 if obj.params and 'direction' in obj.params
+      reg += '\\sfor\\s([0-9]+)\\sseconds' if obj.params and 'duration' in obj.params
 
-      @regexes[method] = RegExp reg
+      @commandRegExes[command] = RegExp reg
+
+    for direction, obj of @directions
+      @directionRegExes[direction] = "(#{obj.text.join('|')})"
 
   interpret: (text) ->
-    for method, expression of @regexes
+    for command, expression of @commandRegExes
       if matches = expression.exec text
-        return @[method](matches[2], matches[3])
+        params = @_matchParams(command, matches)
+        return @[command](params...)
     return false
 
   fly: (direction, duration=1) ->
@@ -47,6 +52,7 @@ module.exports = class Interpreter
     @drone[direction](0.2)
       .after duration * 1000, ->
         @stop()
+    return true
 
   rotate: (direction, duration) ->
     
@@ -57,3 +63,17 @@ module.exports = class Interpreter
   takeoff: ->
     
   land: ->
+    
+  _matchParams: (command, matches) ->
+    return null if typeof @commands[command].params is 'undefined'
+    params = []
+    for paramName, index in @commands[command].params
+      params.push @_matchDirection(matches[index+2]) if paramName is 'direction'
+      params.push parseInt(matches[index+2],10) if paramName is 'duration'
+    params
+    
+  _matchDirection: (text) ->
+    for direction, expression of @directionRegExes
+      return direction if expression.match text
+    return false
+

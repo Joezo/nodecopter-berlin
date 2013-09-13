@@ -9,4 +9,4 @@ describe 'The Intepreter', ->
 
   it 'should parse a basic fly instruction', ->
     @interpreter.interpret('fly left for 10 seconds')
-    sinon.assert.calledWith(@interpreter.fly, 'left', '10')
+    sinon.assert.calledWith(@interpreter.fly, 'left', 10)
