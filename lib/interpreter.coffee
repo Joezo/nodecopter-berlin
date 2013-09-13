@@ -37,13 +37,11 @@ module.exports = class Interpreter
   interpret: (text) ->
     for method, expression of @regexes
       if matches = expression.exec text
-        console.log matches[2], matches[3]
-        @[method](matches[2],matches[3])
-    
-    false
+        return @[method](matches[2], matches[3])
+    return false
 
   fly: (direction, duration=1) ->
-    return unless direction in ['left','right','forward','back']
+    return unless direction in ['left', 'right', 'forward', 'back']
     @ardone[direction](0.2)
       .after duration * 1000, ->
         @stop()
