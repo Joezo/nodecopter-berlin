@@ -1,7 +1,7 @@
 module.exports = class Interpreter
   commandRegExes   : {}
   directionRegExes : {}
-  texts = []
+  runCommands      : []
 
   directions:
     left:
@@ -48,10 +48,20 @@ module.exports = class Interpreter
       @directionRegExes[direction] = "(#{obj.text.join('|')})"
 
 
-  interpret: (text) ->    
-    @texts = text.split('then')
-    @_popFirstCommand()    
-    return texts.length > 0;
+  interpret: (texts) ->
+    for text in texts.split('then')
+      for command, expression of @commandRegExes
+        if matches = expression.exec(text)
+          if params = @_matchParams(command, matches)
+            @runCommands.push
+              method : command
+              params : params
+          else
+            console.log "invalid statement: #{text}"
+            return false
+
+    @_popFirstCommand()
+    return @runCommands.length > 0;
 
   fly: (direction, duration=1, callback) ->
     console.log("flying #{direction} for #{duration}")
@@ -108,15 +118,9 @@ module.exports = class Interpreter
     true
 
   _popFirstCommand: =>
-    text = @texts[0]
-    @texts.shift()
-    for command, expression of @commandRegExes
-      if matches = expression.exec text
-        if params = @_matchParams(command, matches)
-          return @[command](params..., @_popFirstCommand)
-        else
-          console.log "invalid statement"
-          return false
+    command = @runCommands[0]
+    @runCommands.shift()
+    @[command.method](command.params...)
 
   _matchParams: (command, matches) ->
     return [] if typeof @commands[command].params is 'undefined'
