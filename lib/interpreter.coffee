@@ -66,13 +66,13 @@ module.exports = class Interpreter
   flip: (direction) ->
     switch direction
       when 'left'
-        @drone.animate('flipLeft')        
+        @drone.animate('flipLeft', 1500)        
       when 'right'
-        @drone.animate('flipRight')
+        @drone.animate('flipRight', 1500)
       when 'front'
-        @drone.animate('flipAhead')
+        @drone.animate('flipAhead', 1500)
       when 'back'
-        @drone.animate('flipBehind')
+        @drone.animate('flipBehind', 1500)
       else
         return false
     return true        
