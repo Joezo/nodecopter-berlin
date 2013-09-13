@@ -1,5 +1,5 @@
 module.exports = class Interpreter
-  commandRegExes    : {}
+  commandRegExes   : {}
   directionRegExes : {}
 
   directions:
@@ -26,6 +26,8 @@ module.exports = class Interpreter
       text: ['land']
     reset:
       text: ['reset']
+    rotate: 
+      text: ['rotate', 'turn']
   
   constructor: (@drone) ->
     throw new Error("I need a drone!") unless @drone
@@ -66,11 +68,13 @@ module.exports = class Interpreter
     
   _matchParams: (command, matches) ->
     return null if typeof @commands[command].params is 'undefined'
-    params = []
-    for paramName, index in @commands[command].params
-      params.push @_matchDirection(matches[index+2]) if paramName is 'direction'
-      params.push parseInt(matches[index+2],10) if paramName is 'duration'
-    params
+    params = for paramName, index in @commands[command].params
+      switch paramName
+        when 'direction'
+          @_matchDirection(matches[index+2])
+        when 'duration'
+          parseInt matches[index+2], 10
+    return params
     
   _matchDirection: (text) ->
     for direction, expression of @directionRegExes
