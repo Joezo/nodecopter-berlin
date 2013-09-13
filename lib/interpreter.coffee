@@ -46,17 +46,20 @@ module.exports = class Interpreter
   interpret: (text) ->
     for command, expression of @commandRegExes
       if matches = expression.exec text
-        params = @_matchParams(command, matches)
-        return @[command](params...)
+        if params = @_matchParams(command, matches)
+          return @[command](params...)
+        else
+          return @[command]()
     return false
 
   fly: (direction, duration=1) ->
     return unless direction in ['left', 'right', 'front', 'back']
     console.log("flying #{direction} for #{duration}")
-    @drone.after 0, () ->
+    @drone.after(0, ->
       @[direction](0.2)
-    .after duration * 1000, ->
-        @stop()
+    ).after(duration * 1000, ->
+      @stop()
+    )
     return true
 
   rotate: (direction, duration) ->
