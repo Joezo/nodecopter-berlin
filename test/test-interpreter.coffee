@@ -35,10 +35,20 @@ describe 'The Intepreter', ->
         @interpreter.interpret('rotate left for 15 seconds')
         sinon.assert.calledWith(@interpreter.rotate, 'left', 15)
       
-      it 'parses turn', ->
+      it 'parses turn', ->        
         @interpreter.interpret('turn right for 11 seconds')
         sinon.assert.calledWith(@interpreter.rotate, 'right', 11)
-      
+
+      it 'parses left', ->                
+        @interpreter.interpret('rotate left for 1 second')
+        sinon.assert.calledWith(@interpreter.rotate, 'left' , 1)
+
+      it 'parses right' , ->                
+        @interpreter.interpret('rotate right for 2 second')
+        sinon.assert.calledWith(@interpreter.rotate, 'right' , 2)
+    
+    
+
     describe 'fly', ->
       beforeEach ->
         @interpreter = new Interpreter('drone')
@@ -76,4 +86,4 @@ describe 'The Intepreter', ->
       describe 'down', ->
         it 'parses down', ->
           @interpreter.interpret('fly down for 10 seconds')
-          sinon.assert.calledWith(@interpreter.fly, 'down', 10)
+          sinon.assert.calledWith(@interpreter.fly, 'down', 10)    
