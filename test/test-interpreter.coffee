@@ -46,8 +46,6 @@ describe 'The Intepreter', ->
       it 'parses right' , ->                
         @interpreter.interpret('rotate right for 2 second')
         sinon.assert.calledWith(@interpreter.rotate, 'right' , 2)
-    
-    
 
     describe 'fly', ->
       beforeEach ->
@@ -91,8 +89,11 @@ describe 'The Intepreter', ->
       describe 'invalid direction', ->
         it 'returns false', ->
           assert @interpreter.interpret('fly around for 40 seconds') is false
-          
-  
+      
+      describe 'invalid duration', ->
+        it 'returns false', ->
+          assert @interpreter.interpret('fly left for billion seconds') is false
+      
   # describe 'fly', ->
   #   beforeEach ->
   #     class Drone
