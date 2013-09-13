@@ -74,4 +74,25 @@ function startButton(){
 
 function sendCommand(text){
   console.log("Going to send", text);
+
+  $.ajax({
+    type: "POST",
+    url: '/command',
+    data: {text: text},
+    success: function(data, textStatus){
+      console.log("Hoorah success");
+    },
+    error: function(){
+      console.log("Oh no error");
+    }
+  });
+}
+
+function DIE(){
+  $.ajax({
+    type: 'POST',
+    url: '/die',
+    data: {},
+    success: function(){}
+  });
 }
