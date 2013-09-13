@@ -24,10 +24,11 @@ app.post '/takeoff', (req, res) ->
   res.end()   
 
 app.post '/command', (req, res) ->
+  client.disableEmergency()
   interpretor = new Interpreter(client)
   result = interpretor.interpret(req.body.text)
   if !result
-  	client.animateLeds('blinkRed', 5, 2)
+    client.animateLeds('blinkRed', 5, 2)
     res.status(405).end()
   else
     res.end()
