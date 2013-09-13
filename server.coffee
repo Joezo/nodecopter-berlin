@@ -1,7 +1,10 @@
 express = require('express')
 fs      = require('fs')
+drone   = require('ar-drone')
 app     = express()
 PORT    = 3000;
+
+app.use(express.static('assets'))
 
 app.get '/', (req, res) ->
   renderPage(res, 'view/index.html', 'text/html')
