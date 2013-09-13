@@ -49,10 +49,11 @@ module.exports = class Interpreter
   interpret: (text) ->
     for command, expression of @commandRegExes
       if matches = expression.exec text
-        if params = @_matchParams(command, matches)
-          return @[command](params...)
+        params = @_matchParams(command, matches)
+        if typeof params is 'undefined'
+          return false
         else
-          return @[command]()
+          return @[command](params...)
     return false
 
   fly: (direction, duration=1) ->
@@ -106,7 +107,7 @@ module.exports = class Interpreter
     true
     
   _matchParams: (command, matches) ->
-    return null if typeof @commands[command].params is 'undefined'
+    return [] if typeof @commands[command].params is 'undefined'
     params = []
     for paramName, index in @commands[command].params
       switch paramName
@@ -114,12 +115,12 @@ module.exports = class Interpreter
           if direction = @_matchDirection(matches[index+2])
             params.push direction
           else
-            return null
+            return undefined
         when 'duration'
           if duration = params.push @_matchDuration(matches[index+2])
             params.push duration
           else
-            return null
+            return undefined
     return params
     
   _matchDirection: (text) ->
