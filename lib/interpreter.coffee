@@ -74,9 +74,8 @@ module.exports = class Interpreter
     ).after(duration * 1000, ->
       @stop()
       callback?()
-    )  
-    
-    
+    ) 
+
   flip: (direction, callback) ->
     switch direction
       when 'left'
@@ -90,26 +89,25 @@ module.exports = class Interpreter
       else
         return false
     callback?()
-    return true        
+    return true
     
   stop: (callback) ->
     console.log('Stop')
-    @drone.stop(callback)    
+    @drone.stop(callback)
    
   takeoff: (callback) ->
     console.log('Taking off')
     @drone.takeoff(callback)
     @drone.animateLeds('redSnake', 5, 2)
     true
-    
+
   land: ->
     console.log('Land')
     @drone.land()
     @drone.animateLeds('redSnake', 5, 2)
     true
-    
-  
-  _popFirstCommand: =>    
+
+  _popFirstCommand: =>
     text = @texts[0]
     @texts.shift()
     for command, expression of @commandRegExes
