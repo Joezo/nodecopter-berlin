@@ -29,6 +29,7 @@ app.post '/command', (req, res) ->
   interpretor = new Interpreter(client)
   result = interpretor.interpret(req.body.text)
   if !result
+  	client.animateLeds('blinkRed', 5, 2)
     res.status(405).end()
   else
     res.end()

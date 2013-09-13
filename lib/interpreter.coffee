@@ -59,12 +59,30 @@ module.exports = class Interpreter
   rotate: (direction, duration) ->
     
   flip: (direction) ->
+    switch direction
+      when 'left'
+        @drone.animate('flipLeft')        
+      when 'right'
+        @drone.animate('flipRight')
+      when 'flipAhead'
+        @drone.animate('flipAhead')
+      when 'flipBehind'
+        @drone.animate('flipBehind')
+      else
+        return false
+  return true        
     
   stop: ->
+    @drone.stop()
+    true
     
   takeoff: ->
+    @drone.takeoff()
+    true
     
   land: ->
+    @drone.land()
+    true
     
   _matchParams: (command, matches) ->
     return null if typeof @commands[command].params is 'undefined'
