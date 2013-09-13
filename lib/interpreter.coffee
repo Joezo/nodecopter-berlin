@@ -36,7 +36,7 @@ module.exports = class Interpreter
     for command, obj of @commands
       reg = "(#{obj.text.join('|')})"
       reg += '\\s([\\w]+)'                    if obj.params and 'direction' in obj.params
-      reg += '\\sfor\\s([0-9]+)\\ssecond(s?)' if obj.params and 'duration' in obj.params
+      reg += '\\sfor\\s([\\w]+)\\ssecond(s?)' if obj.params and 'duration' in obj.params
 
       @commandRegExes[command] = RegExp reg
 
@@ -94,12 +94,19 @@ module.exports = class Interpreter
     
   _matchParams: (command, matches) ->
     return null if typeof @commands[command].params is 'undefined'
-    params = for paramName, index in @commands[command].params
+    params = []
+    for paramName, index in @commands[command].params
       switch paramName
         when 'direction'
-          @_matchDirection(matches[index+2])
+          if direction = @_matchDirection(matches[index+2])
+            params.push direction
+          else
+            return null
         when 'duration'
-          parseInt matches[index+2], 10
+          if duration = params.push @_matchDuration(matches[index+2])
+            params.push duration
+          else
+            return null
     return params
     
   _matchDirection: (text) ->
@@ -107,3 +114,9 @@ module.exports = class Interpreter
       return direction if expression.match text
     return false
 
+  _matchDuration: (text) ->
+    strings = ['one','two','three','four','five','six','seven','eight','nine','ten']
+    int = parseInt(text, 10)
+    int = strings.indexOf(text) + 1 if isNaN(int) and text in strings
+    return int
+  
