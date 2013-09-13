@@ -46,8 +46,6 @@ describe 'The Intepreter', ->
       it 'parses right' , ->                
         @interpreter.interpret('rotate right for 2 second')
         sinon.assert.calledWith(@interpreter.rotate, 'right' , 2)
-    
-    
 
     describe 'fly', ->
       beforeEach ->

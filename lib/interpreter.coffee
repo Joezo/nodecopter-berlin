@@ -47,8 +47,9 @@ module.exports = class Interpreter
     for direction, obj of @directions
       @directionRegExes[direction] = "(#{obj.text.join('|')})"
 
+
   interpret: (text) ->    
-    @texts = text.split('then')    
+    @texts = text.split('then')
     @_popFirstCommand()    
     return texts.length > 0;
 
@@ -113,11 +114,11 @@ module.exports = class Interpreter
     @texts.shift()
     for command, expression of @commandRegExes
       if matches = expression.exec text
-        params = @_matchParams(command, matches)
-        if typeof params is 'undefined'
-          return false
-        else
+        if params = @_matchParams(command, matches)
           return @[command](params..., @_popFirstCommand)
+        else
+          console.log "invalid statement"
+          return false
 
   _matchParams: (command, matches) ->
     return [] if typeof @commands[command].params is 'undefined'
@@ -128,12 +129,12 @@ module.exports = class Interpreter
           if direction = @_matchDirection(matches[index+2])
             params.push direction
           else
-            return undefined
+            return false
         when 'duration'
-          if duration = params.push @_matchDuration(matches[index+2])
+          if duration = @_matchDuration(matches[index+2])
             params.push duration
           else
-            return undefined
+            return false
     return params
     
   _matchDirection: (text) ->
@@ -143,7 +144,10 @@ module.exports = class Interpreter
 
   _matchDuration: (text) ->
     strings = ['one','two','three','four','five','six','seven','eight','nine','ten']
-    int = parseInt(text, 10)
-    int = strings.indexOf(text) + 1 if isNaN(int) and text in strings
-    return int
+    if (int = parseInt(text, 10)) and not isNaN(int)
+      return int
+    else if text in strings
+      return strings.indexOf(text) + 1
+    else
+      return false
   
