@@ -21,9 +21,7 @@ app.post '/die', (req, res) ->
 app.post '/takeoff', (req, res) ->
   console.log('drone takeoff')
   client.takeoff()
-  res.end()  
-  
-
+  res.end()   
 
 app.post '/command', (req, res) ->
   interpretor = new Interpreter(client)
