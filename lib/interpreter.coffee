@@ -29,6 +29,9 @@ module.exports = class Interpreter
     rotate:
       params: ['direction', 'duration']
       text: ['rotate', 'turn']
+    flip:
+      params: ['direction']
+      text: ['flip', 'loop']
   
   constructor: (@drone) ->
     throw new Error("I need a drone!") unless @drone
