@@ -88,7 +88,11 @@ describe 'The Intepreter', ->
       
       describe 'invalid direction', ->
         it 'returns false', ->
-          assert @interpreter.interpret('fly around for 40 seconds') is false          
+          assert @interpreter.interpret('fly around for 40 seconds') is false
+        
+      describe 'invalid duration', ->
+        it 'returns false', ->
+          assert @interpreter.interpret('fly left for billion seconds') is false
 
     describe 'two commands', ->
       beforeEach ->
