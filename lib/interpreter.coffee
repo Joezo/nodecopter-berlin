@@ -60,6 +60,7 @@ module.exports = class Interpreter
     console.log("flying #{direction} for #{duration}")
     @drone.after(0, ->
       @[direction](0.2)
+      @animateLeds('redSnake', 5, 2)
     ).after(duration * 1000, ->
       @stop()
     )
@@ -99,11 +100,13 @@ module.exports = class Interpreter
   takeoff: ->
     console.log('Taking off')
     @drone.takeoff()
+    @drone.animateLeds('redSnake', 5, 2)
     true
     
   land: ->
     console.log('Land')
     @drone.land()
+    @drone.animateLeds('redSnake', 5, 2)
     true
     
   _matchParams: (command, matches) ->
