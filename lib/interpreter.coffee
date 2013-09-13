@@ -26,7 +26,9 @@ module.exports = class Interpreter
     reset:
       text: ['reset']
   
-  constructor: ->
+  constructor: (@drone) ->
+    throw new Error("I need a drone!") unless @drone
+
     for method, command of @commands
       reg = "(#{command.text.join('|')})"
       reg += '\\s([\\w]+)'                 if command.params and 'direction' in command.params
@@ -42,7 +44,7 @@ module.exports = class Interpreter
 
   fly: (direction, duration=1) ->
     return unless direction in ['left', 'right', 'forward', 'back']
-    @ardone[direction](0.2)
+    @drone[direction](0.2)
       .after duration * 1000, ->
         @stop()
 

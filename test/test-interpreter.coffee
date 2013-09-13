@@ -5,7 +5,7 @@ Interpreter = require('../lib/interpreter')
 describe 'The Intepreter', ->
   beforeEach ->
     sinon.stub(Interpreter::, 'fly')
-    @interpreter = new Interpreter
+    @interpreter = new Interpreter('drone')
 
   it 'should parse a basic fly instruction', ->
     @interpreter.interpret('fly left for 10 seconds')
