@@ -26,7 +26,7 @@ app.post '/takeoff', (req, res) ->
 
 
 app.post '/command', (req, res) ->
-  interpretor = new Interpreter
+  interpretor = new Interpreter(client)
   result = interpretor.interpret(req.body.text)
   if !result
     res.status(405).end()
@@ -43,6 +43,10 @@ renderString = (res, data, type) ->
   res.setHeader('Content-Type', type)
   res.setHeader('Content-Length', data.length)
   res.end(data)
+
+app.use ( err, req, res, next ) ->
+  res.status(500)
+  res.end()
 
 app.listen(PORT)
 
