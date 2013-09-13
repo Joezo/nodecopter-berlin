@@ -56,8 +56,8 @@ describe 'The Intepreter', ->
     
       describe 'forward', ->
         it 'parses forward', ->
-          @interpreter.interpret('fly forward for 10 seconds')
-          sinon.assert.calledWith(@interpreter.fly, 'front', 10)
+          @interpreter.interpret('fly forward for 1 second')
+          sinon.assert.calledWith(@interpreter.fly, 'front', 1)
     
         it 'parses forwards', ->
           @interpreter.interpret('fly forwards for 10 seconds')

@@ -36,7 +36,7 @@ module.exports = class Interpreter
     for command, obj of @commands
       reg = "(#{obj.text.join('|')})"
       reg += '\\s([\\w]+)'                 if obj.params and 'direction' in obj.params
-      reg += '\\sfor\\s([0-9]+)\\sseconds' if obj.params and 'duration' in obj.params
+      reg += '\\sfor\\s([0-9]+)\\ssecond(s?)' if obj.params and 'duration' in obj.params
 
       @commandRegExes[command] = RegExp reg
 
