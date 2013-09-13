@@ -77,3 +77,17 @@ describe 'The Intepreter', ->
         it 'parses down', ->
           @interpreter.interpret('fly down for 10 seconds')
           sinon.assert.calledWith(@interpreter.fly, 'down', 10)
+  
+  describe 'fly', ->
+    beforeEach ->
+      class Drone
+        after: ->
+        left: ->
+      @drone = new Drone
+      sinon.stub(@drone, 'after').returns(@drone)
+      sinon.stub(@drone, 'left').returns(@drone)
+      @interpreter = new Interpreter(@drone)
+    
+    it 'calls left', ->
+      @interpreter.fly('left', 10)
+      sinon.assert.called(@drone.left)
