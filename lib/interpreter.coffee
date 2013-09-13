@@ -35,7 +35,7 @@ module.exports = class Interpreter
 
     for command, obj of @commands
       reg = "(#{obj.text.join('|')})"
-      reg += '\\s([\\w]+)'                 if obj.params and 'direction' in obj.params
+      reg += '\\s([\\w]+)'                    if obj.params and 'direction' in obj.params
       reg += '\\sfor\\s([0-9]+)\\ssecond(s?)' if obj.params and 'duration' in obj.params
 
       @commandRegExes[command] = RegExp reg
@@ -67,9 +67,9 @@ module.exports = class Interpreter
         @drone.animate('flipLeft')        
       when 'right'
         @drone.animate('flipRight')
-      when 'flipAhead'
+      when 'front'
         @drone.animate('flipAhead')
-      when 'flipBehind'
+      when 'back'
         @drone.animate('flipBehind')
       else
         return false
