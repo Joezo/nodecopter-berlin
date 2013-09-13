@@ -49,8 +49,10 @@ module.exports = class Interpreter
 
   fly: (direction, duration=1) ->
     return unless direction in ['left', 'right', 'forward', 'back']
-    @drone[direction](0.2)
-      .after duration * 1000, ->
+    console.log("flying #{direction} for #{duration}")
+    @drone.after 0, () ->
+      @[direction](0.2)
+    .after duration * 1000, ->
         @stop()
     return true
 
