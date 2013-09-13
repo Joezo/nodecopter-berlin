@@ -32,8 +32,12 @@ describe 'The Intepreter', ->
         sinon.stub(@interpreter, 'rotate')
 
       it 'parses rotate', ->
-        @interpreter.interpret('rotate')
-        sinon.assert.called(@interpreter.rotate)
+        @interpreter.interpret('rotate left for 15 seconds')
+        sinon.assert.calledWith(@interpreter.rotate, 'left', 15)
+      
+      it 'parses turn', ->
+        @interpreter.interpret('turn right for 11 seconds')
+        sinon.assert.calledWith(@interpreter.rotate, 'right', 11)
       
     describe 'fly', ->
       beforeEach ->

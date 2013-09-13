@@ -26,7 +26,8 @@ module.exports = class Interpreter
       text: ['land']
     reset:
       text: ['reset']
-    rotate: 
+    rotate:
+      params: ['direction', 'duration']
       text: ['rotate', 'turn']
   
   constructor: (@drone) ->
