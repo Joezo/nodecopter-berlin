@@ -36,7 +36,7 @@ module.exports = class Interpreter
     wait:
       params: ['duration']
       text: ['wait', 'halt']
-  
+
   constructor: (@drone) ->
     throw new Error("I need a drone!") unless @drone
 
@@ -49,7 +49,6 @@ module.exports = class Interpreter
 
     for direction, obj of @directions
       @directionRegExes[direction] = "(#{obj.text.join('|')})"
-
 
   interpret: (texts) ->
     for text in texts.split('then')
@@ -92,7 +91,7 @@ module.exports = class Interpreter
   flip: (direction, callback) ->
     switch direction
       when 'left'
-        @drone.animate('flipLeft', 1500)        
+        @drone.animate('flipLeft', 1500)
       when 'right'
         @drone.animate('flipRight', 1500)
       when 'front'
@@ -103,11 +102,11 @@ module.exports = class Interpreter
         return false
     callback?()
     return true
-    
+
   stop: (callback) ->
     console.log('Stop')
     @drone.stop(callback)
-   
+
   takeoff: (callback) ->
     console.log('Taking off')
     @drone.takeoff(callback)
@@ -119,11 +118,11 @@ module.exports = class Interpreter
     @drone.land()
     @drone.animateLeds('redSnake', 5, 2)
     true
-    
+
   wait: (duration, callback) ->
     console.log('waiting for ' , duration)
     setTimeout(callback, duration * 1000)    
-  
+
   _popFirstCommand: =>
     command = @runCommands[0]
     @runCommands.shift()
@@ -145,7 +144,7 @@ module.exports = class Interpreter
           else
             return false
     return params
-    
+
   _matchDirection: (text) ->
     for direction, expression of @directionRegExes
       return direction if expression.match text
@@ -159,4 +158,3 @@ module.exports = class Interpreter
       return strings.indexOf(text) + 1
     else
       return false
-  
