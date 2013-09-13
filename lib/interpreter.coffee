@@ -7,7 +7,7 @@ module.exports = class Interpreter
       text: ['left']
     right:
       text: ['right']
-    forward:
+    front:
       text: ['forward','forwards']
     back:
       text: ['back','backwards']
@@ -50,7 +50,7 @@ module.exports = class Interpreter
     return false
 
   fly: (direction, duration=1) ->
-    return unless direction in ['left', 'right', 'forward', 'back']
+    return unless direction in ['left', 'right', 'front', 'back']
     console.log("flying #{direction} for #{duration}")
     @drone.after 0, () ->
       @[direction](0.2)
@@ -63,10 +63,13 @@ module.exports = class Interpreter
   flip: (direction) ->
     
   stop: ->
+    @drone.stop()
     
   takeoff: ->
+    @drone.takeoff()
     
   land: ->
+    @drone.land()
     
   _matchParams: (command, matches) ->
     return null if typeof @commands[command].params is 'undefined'
