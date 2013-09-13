@@ -13,8 +13,11 @@ app.get '/', (req, res) ->
 
 app.post '/command', (req, res) ->
   interpretor = new Interpreter
-  console.log(req.body)
-  result = interpretor.interpretate(req.body.text)
+  result = interpretor.interpret(req.body.text)
+  if !result
+    res.status(404).end()
+  else
+    res.end()
   console.log('result', result)
 
 renderPage = (res, file, type) ->
