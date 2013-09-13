@@ -24,7 +24,7 @@ module.exports = class Interpreter
     takeoff:
       text: ['takeoff', 'take\\ off', 'start']
     land:
-      text: ['land']
+      text: ['land', 'fuck\\ off', 'get\\ the\\ fuck\\ down']
     reset:
       text: ['reset']
     rotate:
