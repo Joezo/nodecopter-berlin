@@ -24,7 +24,7 @@ module.exports = class Interpreter
     takeoff:
       text: ['takeoff', 'take\\ off', 'start']
     land:
-      text: ['land', 'fuck\\ off', 'get\\ the\\ fuck\\ down']
+      text: ['land', 'f***\\ off', 'get\\ the\\ f***\\ down']
     reset:
       text: ['reset']
     rotate:
@@ -121,7 +121,7 @@ module.exports = class Interpreter
 
   wait: (duration, callback) ->
     console.log('waiting for ' , duration)
-    setTimeout(callback, duration * 1000)    
+    setTimeout(callback, duration * 1000)
 
   _popFirstCommand: =>
     command = @runCommands[0]
