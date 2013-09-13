@@ -18,6 +18,10 @@
   "dependencies": {
     "express": "3.4.0",
     "socket.io": "0.9.16",
-    "ar-drone" : "0.2.0"
+    "ar-drone": "0.2.0",
+    "utest": "0.0.8",
+    "sinon": "1.7.3",
+    "mocha": "~1.12.1",
+    "chai": "~1.7.2"
   }
 }

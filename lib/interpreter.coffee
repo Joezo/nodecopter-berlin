@@ -1,4 +1,4 @@
-class Interpreter
+module.exports = class Interpreter
   regexes: {}
 
   directions:
@@ -31,15 +31,13 @@ class Interpreter
       reg = "(#{command.text.join('|')})"
       reg += '/\s([/\w]+)'                 if command.params and 'direction' in command.params
       reg += '/\sfor/\s([0-9]+)/\sseconds' if command.params and 'duration' in command.params
-      
-      @regexes[method] = reg
-    
-    console.log @regexes
-    
+
+      @regexes[method] = RegExp reg
+
   interpretate: (text) ->
     for method, expression of @regexes
-      regexp = new RegExp expression, 'ig'
-      if matches = text.exec regexp
+      console.log expression
+      if matches = expression.exec text
         console.log matches
 
   fly: (direction, duration=1) ->
@@ -57,4 +55,3 @@ class Interpreter
   takeoff: ->
     
   land: ->
-
