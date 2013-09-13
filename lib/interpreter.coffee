@@ -55,7 +55,7 @@ module.exports = class Interpreter
   fly: (direction, duration=1, callback) ->
     console.log("flying #{direction} for #{duration}")
     @drone.after(0, ->
-      @[direction](0.2)
+      @[direction](0.4)
       @animateLeds('redSnake', 5, 2)
     ).after(duration * 1000, ->
       @stop()
@@ -67,9 +67,9 @@ module.exports = class Interpreter
     @drone.after(0, ->
       switch direction
         when 'left'
-          @clockwise(0.5)
+          @counterClockwise(0.7)
         when 'right'
-          @counterClockwise(0.5)
+          @clockwise(0.7)
     ).after(duration * 1000, ->
       @stop()
       callback?()

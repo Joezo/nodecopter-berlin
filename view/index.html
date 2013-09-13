@@ -8,8 +8,8 @@
     <button onclick="startButton();">Listen to me!</button>
     <br/>
     <button style="height:200px; width:100%; background:red; font-size:30px; color: white; background:red; font-size:30px; color: white;" onclick="DIE();">DIEEEEEE</button>
-    <form onsubmit="sendCommand($('#textbox').val()); return false;">
-      <textarea id="textbox"></textarea>
+    <form onsubmit="sendCommand($('#textbox').val()); $('#textbox').val(''); return false;">
+      <input type="text" id="textbox" focus/>
       <button type="submit" style="height:50px;"/>Send!</button>
     </form>
   </body>
