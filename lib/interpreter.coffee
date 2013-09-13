@@ -33,6 +33,9 @@ module.exports = class Interpreter
     flip:
       params: ['direction']
       text: ['flip', 'loop']
+    wait:
+      params: ['duration']
+      text: ['wait', 'halt']
   
   constructor: (@drone) ->
     throw new Error("I need a drone!") unless @drone
@@ -78,9 +81,9 @@ module.exports = class Interpreter
     @drone.after(0, ->
       switch direction
         when 'left'
-          @clockwise(0.5)
+          @counterClockwise(0.7)
         when 'right'
-          @counterClockwise(0.5)
+          @clockwise(0.7)
     ).after(duration * 1000, ->
       @stop()
       callback?()
@@ -116,7 +119,11 @@ module.exports = class Interpreter
     @drone.land()
     @drone.animateLeds('redSnake', 5, 2)
     true
-
+    
+  wait: (duration, callback) ->
+    console.log('waiting for ' , duration)
+    setTimeout(callback, duration * 1000)    
+  
   _popFirstCommand: =>
     command = @runCommands[0]
     @runCommands.shift()

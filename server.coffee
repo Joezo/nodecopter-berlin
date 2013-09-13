@@ -15,6 +15,7 @@ app.get '/', (req, res) ->
 
 app.post '/die', (req, res) ->
   console.log('landing the drone')
+  client.stop()
   client.land()
   res.end()
 
@@ -25,6 +26,7 @@ app.post '/takeoff', (req, res) ->
   res.end()   
 
 app.post '/command', (req, res) ->
+  client.stop()
   client.disableEmergency()
   interpretor = new Interpreter(client)
   result = interpretor.interpret(req.body.text)
