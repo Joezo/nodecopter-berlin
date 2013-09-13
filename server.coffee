@@ -14,10 +14,16 @@ app.get '/', (req, res) ->
   renderPage(res, 'view/index.html', 'text/html')
 
 app.post '/die', (req, res) ->
+  console.log('landing the drone')
   client.land()
+  res.end()
 
 app.post '/takeoff', (req, res) ->
+  console.log('drone takeoff')
   client.takeoff()
+  res.end()  
+  
+
 
 app.post '/command', (req, res) ->
   interpretor = new Interpreter
