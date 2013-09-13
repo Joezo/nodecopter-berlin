@@ -26,7 +26,8 @@ module.exports = class Interpreter
       text: ['land']
     reset:
       text: ['reset']
-    rotate: 
+    rotate:
+      params: ['direction', 'duration']
       text: ['rotate', 'turn']
   
   constructor: (@drone) ->
@@ -61,18 +62,33 @@ module.exports = class Interpreter
   rotate: (direction, duration) ->
     
   flip: (direction) ->
+    switch direction
+      when 'left'
+        @drone.animate('flipLeft')        
+      when 'right'
+        @drone.animate('flipRight')
+      when 'flipAhead'
+        @drone.animate('flipAhead')
+      when 'flipBehind'
+        @drone.animate('flipBehind')
+      else
+        return false
+  return true        
     
   stop: ->
-    console.log('Stopping')
+    console.log('Stop')
     @drone.stop()
-    
+    true
+   
   takeoff: ->
     console.log('Taking off')
     @drone.takeoff()
+    true
     
   land: ->
     console.log('Land')
     @drone.land()
+    true
     
   _matchParams: (command, matches) ->
     return null if typeof @commands[command].params is 'undefined'
