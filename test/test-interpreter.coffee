@@ -3,10 +3,12 @@ sinon       = require('sinon')
 Interpreter = require('../lib/interpreter')
 
 
-describe 'The Intepreter', -> 
-  Interpreter::fly = sinon.spy()
-  this.interpreter = new Interpreter
+describe 'The Intepreter', ->
+  beforeEach ->
+    Interpreter::fly = sinon.spy()
+    @interpreter = new Interpreter
 
   it 'should parse a basic fly instruction', ->  
-  this.interpreter.interpretate('fly left for 10 seconds')
-  assert(this.interpreter.fly.calledWith('left', 10))
+    console.log @interpreter.fly
+    @interpreter.interpret('fly left for 10 seconds')
+    assert @interpreter.fly.calledWith('left', 10)
