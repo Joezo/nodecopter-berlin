@@ -90,19 +90,17 @@ describe 'The Intepreter', ->
       
       describe 'invalid direction', ->
         it 'returns false', ->
-          assert @interpreter.interpret('fly around for 40 seconds') is false
-          
-  
-  # describe 'fly', ->
-  #   beforeEach ->
-  #     class Drone
-  #       after: ->
-  #       left: ->
-  #     @drone = new Drone
-  #     sinon.stub(@drone, 'after').returns(@drone)
-  #     sinon.stub(@drone, 'left').returns(@drone)
-  #     @interpreter = new Interpreter(@drone)
-  #   
-  #   it 'calls left', ->
-  #     @interpreter.fly('left', 10)
-  #     sinon.assert.called(@drone.left)
+          assert @interpreter.interpret('fly around for 40 seconds') is false          
+
+    describe 'two commands', ->
+      beforeEach ->
+        @interpreter = new Interpreter('drone')
+        sinon.stub(@interpreter, 'fly')
+        sinon.stub(@interpreter, 'rotate')
+
+      describe 'fly and rotate', ->
+        it 'should chain the two commands', ->
+          @interpreter.interpret('fly left for 10 seconds then rotate left for 2 seconds')
+          @interpreter._popFirstCommand()
+          sinon.assert.calledWith(@interpreter.fly, 'left', 10)
+          sinon.assert.calledWith(@interpreter.rotate, 'left', 2)

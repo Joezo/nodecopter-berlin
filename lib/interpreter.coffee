@@ -1,6 +1,7 @@
 module.exports = class Interpreter
   commandRegExes   : {}
   directionRegExes : {}
+  texts = []
 
   directions:
     left:
@@ -46,27 +47,23 @@ module.exports = class Interpreter
     for direction, obj of @directions
       @directionRegExes[direction] = "(#{obj.text.join('|')})"
 
-  interpret: (text) ->
-    for command, expression of @commandRegExes
-      if matches = expression.exec text
-        params = @_matchParams(command, matches)
-        if typeof params is 'undefined'
-          return false
-        else
-          return @[command](params...)
-    return false
+  interpret: (text) ->    
+    @texts = text.split('then')    
+    @_popFirstCommand()    
+    return texts.length > 0;
 
-  fly: (direction, duration=1) ->
+  fly: (direction, duration=1, callback) ->
     console.log("flying #{direction} for #{duration}")
     @drone.after(0, ->
       @[direction](0.2)
       @animateLeds('redSnake', 5, 2)
     ).after(duration * 1000, ->
       @stop()
+      callback?()
     )
     return true
 
-  rotate: (direction, duration) ->
+  rotate: (direction, duration, callback) ->
     @drone.after(0, ->
       switch direction
         when 'left'
@@ -75,10 +72,11 @@ module.exports = class Interpreter
           @counterClockwise(0.5)
     ).after(duration * 1000, ->
       @stop()
+      callback?()
     )  
     
     
-  flip: (direction) ->
+  flip: (direction, callback) ->
     switch direction
       when 'left'
         @drone.animate('flipLeft', 1500)        
@@ -90,16 +88,16 @@ module.exports = class Interpreter
         @drone.animate('flipBehind', 1500)
       else
         return false
+    callback?()
     return true        
     
-  stop: ->
+  stop: (callback) ->
     console.log('Stop')
-    @drone.stop()
-    true
+    @drone.stop(callback)    
    
-  takeoff: ->
+  takeoff: (callback) ->
     console.log('Taking off')
-    @drone.takeoff()
+    @drone.takeoff(callback)
     @drone.animateLeds('redSnake', 5, 2)
     true
     
@@ -109,6 +107,18 @@ module.exports = class Interpreter
     @drone.animateLeds('redSnake', 5, 2)
     true
     
+  
+  _popFirstCommand: =>    
+    text = @texts[0]
+    @texts.shift()
+    for command, expression of @commandRegExes
+      if matches = expression.exec text
+        params = @_matchParams(command, matches)
+        if typeof params is 'undefined'
+          return false
+        else
+          return @[command](params..., @_popFirstCommand)
+
   _matchParams: (command, matches) ->
     return [] if typeof @commands[command].params is 'undefined'
     params = []
