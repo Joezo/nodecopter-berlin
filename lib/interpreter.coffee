@@ -63,12 +63,15 @@ module.exports = class Interpreter
   flip: (direction) ->
     
   stop: ->
+    console.log('Stopping')
     @drone.stop()
     
   takeoff: ->
+    console.log('Taking off')
     @drone.takeoff()
     
   land: ->
+    console.log('Land')
     @drone.land()
     
   _matchParams: (command, matches) ->
