@@ -65,6 +65,16 @@ module.exports = class Interpreter
     return true
 
   rotate: (direction, duration) ->
+    @drone.after(0, ->
+      switch direction
+        when 'left'
+          @clockwise(0.5)
+        when 'right'
+          @counterClockwise(0.5)
+    ).after(duration * 1000, ->
+      @stop()
+    )  
+    
     
   flip: (direction) ->
     switch direction
