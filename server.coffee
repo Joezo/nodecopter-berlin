@@ -21,6 +21,7 @@ app.post '/die', (req, res) ->
 app.post '/takeoff', (req, res) ->
   console.log('drone takeoff')
   client.takeoff()
+  client.animateLeds('redSnake', 5, 2)
   res.end()   
 
 app.post '/command', (req, res) ->
