@@ -5,11 +5,19 @@ Interpreter = require('./lib/interpreter')
 app     = express()
 PORT    = 3000;
 
+client = drone.createClient();
+
 app.use(express.static('assets'))
 app.use(express.bodyParser())
 
 app.get '/', (req, res) ->
   renderPage(res, 'view/index.html', 'text/html')
+
+app.post '/die', (req, res) ->
+  client.land()
+
+app.post '/takeoff', (req, res) ->
+  client.takeoff()
 
 app.post '/command', (req, res) ->
   interpretor = new Interpreter
