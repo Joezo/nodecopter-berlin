@@ -71,7 +71,7 @@ module.exports = class Interpreter
         @drone.animate('flipBehind')
       else
         return false
-  return true        
+    return true        
     
   stop: ->
     @drone.stop()
